@@ -9,8 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/dracula.min.css">
     <!-- Code Highlight Theme -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+    
+    <!-- Mermaid.js 用於動態畫出流程圖 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+    </script>
+
     <style>
-        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-family: "Microsoft JhengHei", sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { text-transform: none; font-family: "Microsoft JhengHei", sans-serif; }
         .reveal p, .reveal li { font-size: 0.85em; line-height: 1.6; }
         .highlight-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
@@ -18,15 +25,24 @@
             background-color: #ff79c6;
             color: #282a36;
             border: none;
-            padding: 12px 24px;
-            font-size: 0.9em;
+            padding: 10px 20px;
+            font-size: 0.85em;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 10px;
             transition: 0.3s;
         }
         .interactive-btn:hover { background-color: #ffb86c; }
+        .flowchart-container {
+            display: none;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px dashed #bd93f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
         .answer-box {
             display: none;
             margin-top: 15px;
@@ -37,6 +53,7 @@
             text-align: left;
         }
         code { font-family: "Fira Code", Consolas, monospace !important; }
+        .mermaid { display: flex; justify-content: center; }
     </style>
 </head>
 <body>
@@ -85,10 +102,10 @@
                 </div>
             </section>
 
-            <!-- Slide 4: 語法與格式說明 (同一頁呈現) -->
+            <!-- Slide 4: 語法、格式說明與點擊顯示流程圖 -->
             <section>
                 <h3>switch...case 語法結構與格式說明</h3>
-                <div class="grid-2" style="grid-template-columns: 1.1fr 0.9fr;">
+                <div class="grid-2" style="grid-template-columns: 1fr 1fr;">
                     <div>
                         <pre><code class="language-cpp" data-trim data-noescape>
 switch (控制表達式) {
@@ -103,8 +120,9 @@ switch (控制表達式) {
         break;
 }
                         </code></pre>
+                        <button class="interactive-btn" onclick="toggleFlowchart('flowchart-1')">📊 點擊顯示/隱藏 標準流程圖</button>
                     </div>
-                    <div style="font-size: 0.75em;">
+                    <div style="font-size: 0.7em;">
                         <ul>
                             <li><b>switch (控制表達式)：</b>放入要比對的變數或算式（須為明確固定值，如整數 <code>int</code> 或字元 <code>char</code>，不可放範圍條件）。</li>
                             <li><b>case 等值條件:</b> 比對目標，後接固定值與冒號 <code>:</code>。相符時即跳至該處執行。</li>
@@ -113,25 +131,59 @@ switch (控制表達式) {
                         </ul>
                     </div>
                 </div>
+
+                <!-- 點擊按鈕後才顯示的流程圖 1 -->
+                <div id="flowchart-1" class="flowchart-container">
+                    <div class="mermaid">
+                        graph TD
+                            Start([開始]) --> Switch{switch 控制表達式}
+                            Switch -->|case 1| Case1[程式敘述 1]
+                            Case1 --> Break1[break;] --> End([結束])
+                            Switch -->|case 2| Case2[程式敘述 2]
+                            Case2 --> Break2[break;] --> End
+                            Switch -->|default| Default[預設程式敘述]
+                            Default --> End
+                    </div>
+                </div>
             </section>
 
-            <!-- Slide 5: 學生互動問答 (Q&A) -->
+            <!-- Slide 5: 學生互動問答 (以學校電話轉接範例) -->
             <section>
                 <h3>🧠 思考與互動問答</h3>
                 <div class="highlight-box" style="text-align: left;">
-                    <p style="font-size: 1.1em; color: #ffb86c;"><b>Q：除了電梯和販賣機，生活中有哪些狀況也很適合用 switch...case 處理？</b></p>
+                    <p style="font-size: 0.9em; color: #ffb86c;"><b>情境題：</b>打電話到學校時，語音系統提示：<i>「想轉接學務處請按 1，教務處請按 2，總務處請按 3，結束請按任意鍵。」</i></p>
+                    <p style="font-size: 0.85em;">👉 請思考：如果用 <code>switch(input_key)</code> 寫，流程圖該怎麼繪製？</p>
                 </div>
 
-                <button class="interactive-btn" onclick="toggleAnswer()">點擊顯示引導答案與提示</button>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="interactive-btn" onclick="toggleAnswer('answer-1')">💡 顯示思考提示</button>
+                    <button class="interactive-btn" onclick="toggleFlowchart('flowchart-2')" style="background-color: #8be9fd;">📊 點擊顯示轉接流程圖</button>
+                </div>
 
-                <div id="answer" class="answer-box">
-                    <p><b>💡 學生可能提出的參考答案：</b></p>
+                <!-- 引導提示 -->
+                <div id="answer-1" class="answer-box">
+                    <p><b>💡 思考關鍵：</b></p>
                     <ul>
-                        <li><b>客服電話語音選單：</b>「國語服務請按 1，English Service press 2，專人服務請按 0，輸入錯誤請重新輸入 (default)」。</li>
-                        <li><b>遊戲選單 / 鍵盤操控：</b>按下 'W' 上移、'S' 下移、'A' 左移、'D' 右移。</li>
-                        <li><b>紅綠燈號誌控制：</b>「紅燈」停、「綠燈」行、「黃燈」減速。</li>
-                        <li><b>成績等第轉換：</b>等級 'A' 顯示優秀、'B' 顯示良好、'F' 顯示不及格。</li>
+                        <li><code>case 1</code> ➔ 轉接學務處，完成後 <code>break;</code></li>
+                        <li><code>case 2</code> ➔ 轉接教務處，完成後 <code>break;</code></li>
+                        <li><code>case 3</code> ➔ 轉接總務處，完成後 <code>break;</code></li>
+                        <li><code>default</code> ➔ 按任意鍵，觸發「結束語音系統」並掛斷。</li>
                     </ul>
+                </div>
+
+                <!-- 點擊按鈕後才顯示的流程圖 2 (學校電話語音) -->
+                <div id="flowchart-2" class="flowchart-container">
+                    <div class="mermaid">
+                        graph TD
+                            Start([Start]) --> Switch[switch input_key]
+                            Switch --> C1{case 1:}
+                            C1 -->|是| Act1[轉接給學務處 break] --> End([End])
+                            C1 -->|否| C2{case 2:}
+                            C2 -->|是| Act2[轉接給教務處 break] --> End
+                            C2 -->|否| C3{case 3:}
+                            C3 -->|是| Act3[轉接給總務處 break] --> End
+                            C3 -->|否/任意鍵| Def[default: 結束語音系統] --> End
+                    </div>
                 </div>
             </section>
 
@@ -159,13 +211,25 @@ switch (控制表達式) {
             plugins: [ RevealHighlight ]
         });
 
-        // 互動問答顯示控制
-        function toggleAnswer() {
-            var ans = document.getElementById("answer");
+        // 控制文字答案顯示/隱藏
+        function toggleAnswer(id) {
+            var ans = document.getElementById(id);
             if (ans.style.display === "none" || ans.style.display === "") {
                 ans.style.display = "block";
             } else {
                 ans.style.display = "none";
+            }
+        }
+
+        // 控制流程圖顯示/隱藏與動態渲染
+        function toggleFlowchart(id) {
+            var box = document.getElementById(id);
+            if (box.style.display === "none" || box.style.display === "") {
+                box.style.display = "block";
+                // 重新渲染 Mermaid 圖片以確保寬度計算正確
+                mermaid.contentLoaded();
+            } else {
+                box.style.display = "none";
             }
         }
     </script>
