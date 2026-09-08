@@ -1,203 +1,171 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4-3 選擇結構：switch...case 介紹</title>
+    <title>選擇結構 4-3：switch...case 介紹</title>
     <!-- Reveal.js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/dracula.min.css">
-    <!-- 程式碼高亮 CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai-sublime.min.css">
+    <!-- Code Highlight Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
     <style>
-        .reveal h1, .reveal h2, .reveal h3 { font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; text-transform: none; }
-        .highlight { color: #f1fa8c; font-weight: bold; }
-        .interactive-box { background: #44475a; padding: 20px; border-radius: 10px; margin-top: 20px; }
-        .quiz-btn { background: #6272a4; color: #fff; border: none; padding: 10px 20px; margin: 5px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-        .quiz-btn:hover { background: #50fa7b; color: #282a36; }
-        .code-input { font-size: 1.2rem; padding: 5px; width: 80px; text-align: center; border-radius: 5px; border: none; }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-family: "Microsoft JhengHei", sans-serif; }
+        .reveal p, .reveal li { font-size: 0.85em; line-height: 1.6; }
+        .highlight-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
+        .interactive-btn {
+            background-color: #ff79c6;
+            color: #282a36;
+            border: none;
+            padding: 12px 24px;
+            font-size: 0.9em;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .interactive-btn:hover { background-color: #ffb86c; }
+        .answer-box {
+            display: none;
+            margin-top: 15px;
+            background: rgba(80, 250, 123, 0.2);
+            border-left: 5px solid #50fa7b;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: left;
+        }
+        code { font-family: "Fira Code", Consolas, monospace !important; }
     </style>
 </head>
 <body>
     <div class="reveal">
         <div class="slides">
 
-            <!-- 封面 -->
+            <!-- Slide 1: 標題頁 -->
             <section>
-                <h2>4-3 選擇結構</h2>
-                <h3>switch...case 介紹</h3>
-                <p><small>授課單元：程式設計基礎 | 適合 GitHub Pages 發布</small></p>
+                <h2>選擇結構 4-3</h2>
+                <h1>switch...case 介紹</h1>
+                <p style="color: #bd93f9;">多重條件選擇的優雅解法</p>
             </section>
 
-            <!-- 複習與動機 -->
+            <!-- Slide 2: 動機與比較 -->
             <section>
-                <h3>先前的學習：if...else if...else</h3>
-                <p>我們學過用範圍判斷條件[cite: 1]：</p>
-                <ul>
-                    <li><span class="highlight">大於 30 度</span> ➔ 開冷氣[cite: 1]</li>
-                    <li><span class="highlight">小於 18 度</span> ➔ 開暖氣[cite: 1]</li>
-                    <li><span class="highlight">其餘</span> ➔ 送風[cite: 1]</li>
-                </ul>
-                <div class="fragment interactive-box">
-                    <p>❓ 思考：如果是「按 1 號開冷氣、2 號開暖氣、3 號切換送風」這種<span class="highlight">明確選單</span>，寫一連串 <code>else if</code> 會發生什麼事？[cite: 1]</p>
-                    <small>👉 容易使程式碼冗長混亂，且括號配對易錯！[cite: 1]</small>
+                <h3>為什麼需要 switch...case？</h3>
+                <div class="highlight-box" style="text-align: left;">
+                    <p>💡 <b>回顧：</b>之前的單元學過 <code>if...else if...else</code> 處理「範圍判斷」（例如：溫度 &gt; 30 度）。</p>
+                </div>
+                <div class="fragment highlight-box" style="text-align: left;">
+                    <p>⚠️ <b>痛點：</b>遇到「固定選項/特定數值」時（例如：按 1 開冷氣、按 2 開暖氣），寫一連串 <code>else if</code> 容易讓程式碼顯得<b>冗長且混亂</b>，且容易混淆 <code>if</code> 與 <code>else</code> 的配對。</p>
+                </div>
+                <div class="fragment highlight-box" style="text-align: left; border-left: 5px solid #ff79c6;">
+                    <p>✨ <b>解法：</b>使用 <b>switch...case</b> 結構，可以精準比對特定選項，提升程式碼的可讀性與執行效率！</p>
                 </div>
             </section>
 
-            <!-- 生活範例 -->
+            <!-- Slide 3: 生活範例 -->
             <section>
-                <h3>生活中的 switch...case</h3>
-                <div style="display: flex; justify-content: space-around;">
-                    <div style="width: 45%; background: #282a36; padding: 15px; border-radius: 8px; text-align: left;">
+                <h3>生活中的 switch...case 應用範例</h3>
+                <div class="grid-2">
+                    <div class="highlight-box">
                         <h4>🛗 電梯按鈕</h4>
-                        <p style="font-size: 0.85em;">按下「3」直接精準停在 3 樓美食街[cite: 1]。按下「99」無此樓層，觸發預設反應[cite: 1]。</p>
+                        <ul>
+                            <li>按下 <b>「3」</b> 樓 ➔ 直接精準停在 3 樓並開啟美食街的門（不需比較是否大於 10 或小於 0）。</li>
+                            <li>按下不存在的 <b>「99」</b> 樓 ➔ 觸發預設反應，顯示「無此樓層」。</li>
+                        </ul>
                     </div>
-                    <div style="width: 45%; background: #282a36; padding: 15px; border-radius: 8px; text-align: left;">
+                    <div class="highlight-box">
                         <h4>🥤 自動販賣機</h4>
-                        <p style="font-size: 0.85em;">按下「2 號」掉出拿鐵咖啡 ($60)[cite: 1]。按下未排版按鈕則退回硬幣[cite: 1]。</p>
+                        <ul>
+                            <li>按下 <b>「2 號」</b> 按鈕 ➔ 掉出對應的拿鐵咖啡並扣款 $60。</li>
+                            <li>按到 <b>未排版/未設定</b> 的按鈕 ➔ 直接退回硬幣。</li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
-            <!-- 課堂互動 1：學生發想 -->
-            <section style="background-color: #282a36;">
-                <h3>🙋 課堂互動時間</h3>
-                <p class="highlight" style="font-size: 1.3em;">Q：生活中有哪些狀況也適合用 switch...case 處理？[cite: 1]</p>
-                <div class="fragment">
-                    <p>點子參考：</p>
+            <!-- Slide 4: 語法與格式說明 (同一頁呈現) -->
+            <section>
+                <h3>switch...case 語法結構與格式說明</h3>
+                <div class="grid-2" style="grid-template-columns: 1.1fr 0.9fr;">
+                    <div>
+                        <pre><code class="language-cpp" data-trim data-noescape>
+switch (控制表達式) {
+    case 等值條件1:
+        // 條件1成立時執行的程式碼
+        break;
+    case 等值條件2:
+        // 條件2成立時執行的程式碼
+        break;
+    default:
+        // 以上皆不匹配時的預設程式碼
+        break;
+}
+                        </code></pre>
+                    </div>
+                    <div style="font-size: 0.75em;">
+                        <ul>
+                            <li><b>switch (控制表達式)：</b>放入要比對的變數或算式（須為明確固定值，如整數 <code>int</code> 或字元 <code>char</code>，不可放範圍條件）。</li>
+                            <li><b>case 等值條件:</b> 比對目標，後接固定值與冒號 <code>:</code>。相符時即跳至該處執行。</li>
+                            <li><b>break; (非常重要)：</b>跳出 switch 區塊。若漏寫會發生<b>貫穿效應 (Fall-through)</b>，繼續執行下一個 case。</li>
+                            <li><b>default: (選擇性)：</b>類似 <code>else</code>，當完全未命中任何 case 時執行（常用於錯誤處理）。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: 學生互動問答 (Q&A) -->
+            <section>
+                <h3>🧠 思考與互動問答</h3>
+                <div class="highlight-box" style="text-align: left;">
+                    <p style="font-size: 1.1em; color: #ffb86c;"><b>Q：除了電梯和販賣機，生活中有哪些狀況也很適合用 switch...case 處理？</b></p>
+                </div>
+
+                <button class="interactive-btn" onclick="toggleAnswer()">點擊顯示引導答案與提示</button>
+
+                <div id="answer" class="answer-box">
+                    <p><b>💡 學生可能提出的參考答案：</b></p>
                     <ul>
-                        <li>客服語音總機（按 1 轉專人、按 2 查帳單...）</li>
-                        <li>遊戲按鍵控制（W:上、S:下、A:左、D:右）</li>
-                        <li>星期選單（1~7 對應 星期一~星期日）</li>
+                        <li><b>客服電話語音選單：</b>「國語服務請按 1，English Service press 2，專人服務請按 0，輸入錯誤請重新輸入 (default)」。</li>
+                        <li><b>遊戲選單 / 鍵盤操控：</b>按下 'W' 上移、'S' 下移、'A' 左移、'D' 右移。</li>
+                        <li><b>紅綠燈號誌控制：</b>「紅燈」停、「綠燈」行、「黃燈」減速。</li>
+                        <li><b>成績等第轉換：</b>等級 'A' 顯示優秀、'B' 顯示良好、'F' 顯示不及格。</li>
                     </ul>
                 </div>
             </section>
 
-            <!-- 語法結構與按鍵式圖解（同頁面版） -->
+            <!-- Slide 6: 結尾與總結 -->
             <section>
-                <h3>switch...case 語法與按鍵式圖解</h3>
-                <div style="display: flex; gap: 20px; align-items: flex-start; text-align: left; font-size: 0.75em;">
-                    
-                    <!-- 左側：程式碼格式 -->
-                    <div style="flex: 1.1;">
-                        <p style="margin-top:0; font-weight:bold; color:#50fa7b;">💻 程式碼語法格式</p>
-                        <pre style="margin: 0; width: 100%;"><code class="language-cpp">switch (控制表達式) {
-    case 等值條件1:
-        // 執行程式碼 1
-        break;
-    case 等值條件2:
-        // 執行程式碼 2
-        break;
-    default:
-        // 當無匹配時執行的預設程式碼
-        break;
-}</code></pre>
-                    </div>
-
-                    <!-- 右側：按鍵式白話對照解釋 -->
-                    <div style="flex: 1.2; background: #282a36; padding: 15px; border-radius: 8px;">
-                        <p style="margin-top:0; font-weight:bold; color:#f1fa8c;">🔘 按鍵式觀念對照</p>
-                        <ul style="padding-left: 18px; margin: 0; line-height: 1.6;">
-                            <li>
-                                <b style="color:#ff79c6;">switch (控制表達式)</b><br>
-                                ➔ <span class="highlight">感應按鈕</span>：接收你按下的鍵（如數字 <code>1</code> 或字元 <code>'A'</code>）[cite: 1]。
-                            </li>
-                            <li style="margin-top: 8px;">
-                                <b style="color:#ff79c6;">case 等值條件 :</b><br>
-                                ➔ <span class="highlight">實體按鈕標籤</span>：比對號碼，命中就觸發對應功能[cite: 1]。
-                            </li>
-                            <li style="margin-top: 8px;">
-                                <b style="color:#ff79c6;">break;</b><br>
-                                ➔ <span class="highlight">防呆彈簧</span>：執行完該鍵功能後跳出系統，防止卡鍵貫穿[cite: 1]。
-                            </li>
-                            <li style="margin-top: 8px;">
-                                <b style="color:#ff79c6;">default:</b><br>
-                                ➔ <span class="highlight">無效鍵處理</span>：按到不存在的按鈕時（如按了 <code>99</code> 號）執行的預設反應[cite: 1]。
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- 線上即時互動模擬器 -->
-            <section>
-                <h3>🎮 程式執行模擬互動</h3>
-                <p>請輸入選擇 (1 - 3 或其他)：</p>
-                <input type="number" id="userInput" class="code-input" value="1">
-                <button class="quiz-btn" onclick="runSimulation()">執行 Switch</button>
-
-                <div class="interactive-box" id="simResult" style="text-align: left; font-family: monospace;">
-                    等待執行...
-                </div>
-            </section>
-
-            <!-- 課堂隨堂測驗 -->
-            <section>
-                <h3>🎯 隨堂小測驗</h3>
-                <p>如果輸入的控制表達式為 <code>5</code>，且沒有寫 <code>default</code>，程式會怎麼運作？</p>
-                <div>
-                    <button class="quiz-btn" onclick="checkQuiz(false)">A. 程式直接當機報錯</button><br>
-                    <button class="quiz-btn" onclick="checkQuiz(true)">B. 不執行任何 case，直接結束 switch</button><br>
-                    <button class="quiz-btn" onclick="checkQuiz(false)">C. 自動執行第一個 case</button>
-                </div>
-                <p id="quizFeedback" style="margin-top: 15px; font-weight: bold;"></p>
-            </section>
-
-            <!-- 總結 -->
-            <section>
-                <h3>本章總結</h3>
-                <ol>
-                    <li>固定多選一 ➔ 優先使用 <span class="highlight">switch...case</span>[cite: 1]</li>
-                    <li>範圍大小判斷 ➔ 使用 <span class="highlight">if...else if</span>[cite: 1]</li>
-                    <li>記得每個 case 後方要檢查是否有寫 <span class="highlight">break;</span>[cite: 1]</li>
-                </ol>
+                <h2>總結</h2>
+                <ul style="line-height: 2;">
+                    <li>固定值、多選項判斷 ➔ 優先使用 <b>switch...case</b>。</li>
+                    <li>範圍大小判斷 ➔ 使用 <b>if...else if...else</b>。</li>
+                    <li>別忘了在每個 case 結束時加上 <b><code>break;</code></b>！</li>
+                </ul>
+                <p style="margin-top: 40px; color: #50fa7b;"><b>Q & A 時間 / 準備進入程式實作！</b></p>
             </section>
 
         </div>
     </div>
 
-    <!-- Reveal.js & Highlight.js 腳本 -->
+    <!-- Reveal.js JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
     <script>
         Reveal.initialize({
             hash: true,
-            slideNumber: true
+            slideNumber: true,
+            plugins: [ RevealHighlight ]
         });
-        hljs.highlightAll();
 
-        // 模擬器腳本
-        function runSimulation() {
-            let val = parseInt(document.getElementById('userInput').value);
-            let log = "開始比對 switch(val)...<br>";
-            
-            switch(val) {
-                case 1:
-                    log += "<span style='color:#50fa7b;'>➔ 命中 case 1: 啟動冷氣！</span><br>➔ 遇到 break; 跳出。";
-                    break;
-                case 2:
-                    log += "<span style='color:#50fa7b;'>➔ 命中 case 2: 啟動暖氣！</span><br>➔ 遇到 break; 跳出。";
-                    break;
-                case 3:
-                    log += "<span style='color:#50fa7b;'>➔ 命中 case 3: 切換送風！</span><br>➔ 遇到 break; 跳出。";
-                    break;
-                default:
-                    log += "<span style='color:#ff79c6;'>➔ 未命中任何 case，執行 default: 無此選項！</span><br>➔ 結束。";
-                    break;
-            }
-            document.getElementById('simResult').innerHTML = log;
-        }
-
-        // 隨堂問答腳本
-        function checkQuiz(isCorrect) {
-            let feedback = document.getElementById('quizFeedback');
-            if(isCorrect) {
-                feedback.style.color = "#50fa7b";
-                feedback.innerText = "🎉 正確！當沒有比對成功的 case 且無 default 時， switch 會直接跳過不執行任何區塊。";
+        // 互動問答顯示控制
+        function toggleAnswer() {
+            var ans = document.getElementById("answer");
+            if (ans.style.display === "none" || ans.style.display === "") {
+                ans.style.display = "block";
             } else {
-                feedback.style.color = "#ff5555";
-                feedback.innerText = "❌ 答錯囉！再思考一下 switch 的比對邏輯。";
+                ans.style.display = "none";
             }
         }
     </script>
