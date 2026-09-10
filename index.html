@@ -11,29 +11,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
     
     <style>
-        .reveal h1, .reveal h2, .reveal h3, .reveal h4 { text-transform: none; font-family: "Microsoft JhengHei", sans-serif; }
-        .reveal p, .reveal li { font-size: 0.85em; line-height: 1.6; }
-        .highlight-box { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
+        /* 控制整體簡報字型與邊距，防止垂直超出 */
+        .reveal h1 { font-size: 2.2em; text-transform: none; font-family: "Microsoft JhengHei", sans-serif; }
+        .reveal h2 { font-size: 1.8em; text-transform: none; font-family: "Microsoft JhengHei", sans-serif; }
+        .reveal h3 { font-size: 1.4em; text-transform: none; font-family: "Microsoft JhengHei", sans-serif; margin-bottom: 15px; }
+        .reveal h4 { font-size: 1.1em; text-transform: none; font-family: "Microsoft JhengHei", sans-serif; }
+        .reveal p, .reveal li { font-size: 0.72em; line-height: 1.5; }
+        
+        .highlight-box { 
+            background: rgba(255,255,255,0.08); 
+            padding: 10px 15px; 
+            border-radius: 8px; 
+            margin-bottom: 10px; 
+        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left; }
         
         /* 互動按鈕樣式 */
         .interactive-btn {
             background-color: #ff79c6;
             color: #282a36;
             border: none;
-            padding: 10px 18px;
-            font-size: 0.85em;
+            padding: 8px 14px;
+            font-size: 0.75em;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 6px;
             transition: 0.3s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         .interactive-btn:hover { background-color: #ffb86c; transform: translateY(-2px); }
         .blue-btn { background-color: #8be9fd; }
         
-        /* 燈箱/全螢幕彈窗 (Modal Overlay) 防止文字擠壓 */
+        /* 燈箱/全螢幕彈窗 (Modal Overlay) */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -70,12 +80,13 @@
 
         .answer-box {
             display: none;
-            margin-top: 15px;
-            background: rgba(80, 250, 123, 0.2);
-            border-left: 5px solid #50fa7b;
-            padding: 15px;
+            margin-top: 10px;
+            background: rgba(80, 250, 123, 0.15);
+            border-left: 4px solid #50fa7b;
+            padding: 10px 12px;
             border-radius: 4px;
             text-align: left;
+            font-size: 0.8em;
         }
         code { font-family: "Fira Code", Consolas, monospace !important; }
 
@@ -90,10 +101,11 @@
 
         /* 滑鼠懸停程式碼說明區塊 */
         .code-explain-line {
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 4px;
             transition: background 0.2s;
             cursor: pointer;
+            line-height: 1.3;
         }
         .code-explain-line:hover {
             background: rgba(255, 121, 198, 0.25);
@@ -103,9 +115,10 @@
             background: #44475a;
             border: 1px solid #bd93f9;
             border-radius: 8px;
-            padding: 15px;
-            min-height: 120px;
-            font-size: 0.8em;
+            padding: 12px;
+            height: 100%;
+            box-sizing: border-box;
+            font-size: 0.75em;
             text-align: left;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
@@ -137,10 +150,10 @@
                 <div class="highlight-box" style="text-align: left;">
                     <p>💡 <b>回顧：</b>之前的單元學過 <code>if...else if...else</code> 處理「範圍判斷」（例如：溫度 &gt; 30 度）。</p>
                 </div>
-                <div class="fragment highlight-box" style="text-align: left;">
+                <div class="highlight-box" style="text-align: left;">
                     <p>⚠️ <b>痛點：</b>遇到「固定選項/特定數值」時（例如：按 1 開冷氣、按 2 開暖氣），寫一連串 <code>else if</code> 容易讓程式碼顯得<b>冗長且混亂</b>，且容易混淆 <code>if</code> 與 <code>else</code> 的配對。</p>
                 </div>
-                <div class="fragment highlight-box" style="text-align: left; border-left: 5px solid #ff79c6;">
+                <div class="highlight-box" style="text-align: left; border-left: 5px solid #ff79c6;">
                     <p>✨ <b>解法：</b>使用 <b>switch...case</b> 結構，可以精準比對特定選項，提升程式碼的可讀性與執行效率！</p>
                 </div>
             </section>
@@ -152,7 +165,7 @@
                     <div class="highlight-box">
                         <h4>🛗 電梯按鈕</h4>
                         <ul>
-                            <li>按下 <b>「3」</b> 樓 ➔ 直接精準停在 3 樓並開啟美食街的門（不需比較是否大於 10 或小於 0）。</li>
+                            <li>按下 <b>「3」</b> 樓 ➔ 直接精準停在 3 樓並開啟美食街的門。</li>
                             <li>按下不存在的 <b>「99」</b> 樓 ➔ 觸發預設反應，顯示「無此樓層」。</li>
                         </ul>
                     </div>
@@ -168,10 +181,10 @@
 
             <!-- Slide 4: 語法、格式說明 -->
             <section>
-                <h3>switch...case 語法結構與格式說明</h3>
+                <h3>switch...case 語法結構說明</h3>
                 <div class="grid-2" style="grid-template-columns: 1.1fr 0.9fr; align-items: start;">
                     <div>
-                        <pre><code class="language-cpp" data-trim data-noescape>
+                        <pre style="margin: 0;"><code class="language-cpp" data-trim data-noescape style="font-size: 0.75em;">
 switch (控制表達式) {
     case 等值條件1:
         // 當控制表達式等於「條件1」時執行
@@ -186,7 +199,7 @@ switch (控制表達式) {
                         </code></pre>
                         <button class="interactive-btn" onclick="openModal('modal-1')">🖼️ 點擊檢視「標準流程圖」</button>
                     </div>
-                    <div style="font-size: 0.72em;">
+                    <div style="font-size: 0.68em;">
                         <ul>
                             <li><b>switch (控制表達式)：</b>放入要比對的變數或算式（須為明確固定值，如整數 <code>int</code> 或字元 <code>char</code>）。</li>
                             <li><b>case 等值條件:</b> 比對目標，後接固定值與冒號 <code>:</code>。相符時跳至該處執行。</li>
@@ -201,19 +214,19 @@ switch (控制表達式) {
             <section>
                 <h3>🧠 思考與互動問答</h3>
                 <div class="highlight-box" style="text-align: left;">
-                    <p style="font-size: 0.9em; color: #ffb86c;"><b>情境題：</b>打電話到學校時，語音系統提示：<br><i>「想轉接學務處請按 1，教務處請按 2，總務處請按 3，結束請按任意鍵。」</i></p>
-                    <p style="font-size: 0.85em;">👉 請思考：如果用 <code>switch(input_key)</code> 寫，流程圖該怎麼畫？</p>
+                    <p style="font-size: 0.85em; color: #ffb86c; margin-bottom: 5px;"><b>情境題：</b>打電話到學校時，語音系統提示：<br><i>「想轉接學務處請按 1，教務處請按 2，總務處請按 3，結束請按任意鍵。」</i></p>
+                    <p style="font-size: 0.8em; margin: 0;">👉 請思考：如果用 <code>switch(input_key)</code> 寫，流程圖該怎麼畫？</p>
                 </div>
 
-                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 10px;">
                     <button class="interactive-btn" onclick="toggleAnswer('answer-1')">💡 顯示思考提示</button>
                     <button class="interactive-btn blue-btn" onclick="openModal('modal-2')">🖼️ 點擊檢視「學校轉接流程圖」</button>
                 </div>
 
                 <!-- 引導提示 -->
                 <div id="answer-1" class="answer-box">
-                    <p><b>💡 思考關鍵：</b></p>
-                    <ul>
+                    <p style="margin: 0 0 5px 0;"><b>💡 思考關鍵：</b></p>
+                    <ul style="margin: 0; padding-left: 20px;">
                         <li><code>case 1</code> ➔ 轉接學務處 ➔ <code>break;</code></li>
                         <li><code>case 2</code> ➔ 轉接教務處 ➔ <code>break;</code></li>
                         <li><code>case 3</code> ➔ 轉接總務處 ➔ <code>break;</code></li>
@@ -222,106 +235,106 @@ switch (控制表達式) {
                 </div>
             </section>
 
-            <!-- Slide 7: 實作範例 - 互動說明 (滑鼠懸停解析) -->
+            <!-- Slide 6: 實作範例 - 互動說明 (滑鼠懸停解析) -->
             <section>
                 <h3>💻 實作範例：學校語音轉接系統</h3>
-                <p style="font-size: 0.75em; color: #8be9fd;">👇 <b>將滑鼠移至下方程式碼的不同區域，右側會即時顯示詳細說明！</b></p>
+                <p style="font-size: 0.7em; color: #8be9fd; margin-bottom: 8px;">👇 <b>將滑鼠移至下方程式碼的不同區域，右側會即時顯示詳細說明！</b></p>
                 
-                <div class="grid-2" style="grid-template-columns: 1.2fr 0.8fr; align-items: stretch;">
-                    <div style="background: #282a36; padding: 10px; border-radius: 8px; font-size: 0.65em; font-family: monospace; text-align: left;">
+                <div class="grid-2" style="grid-template-columns: 1.1fr 0.9fr; align-items: stretch;">
+                    <div style="background: #282a36; padding: 8px; border-radius: 8px; font-size: 0.58em; font-family: monospace; text-align: left; line-height: 1.2;">
                         <div class="code-explain-line" onmouseover="showExplain('exp-1')">#include &lt;iostream&gt;<br>using namespace std;</div>
                         <div class="code-explain-line" onmouseover="showExplain('exp-2')">int main() {<br>&nbsp;&nbsp;&nbsp;&nbsp;char input;</div>
                         <div class="code-explain-line" onmouseover="showExplain('exp-3')">&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "宜蘭高中您好..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;cin &gt;&gt; input;</div>
                         <div class="code-explain-line" onmouseover="showExplain('exp-4')">&nbsp;&nbsp;&nbsp;&nbsp;switch (input) {</div>
-                        <div class="code-explain-line" onmouseover="showExplain('exp-5')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '1':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "正在為您轉接至學務處..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</div>
-                        <div class="code-explain-line" onmouseover="showExplain('exp-6')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '2':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "正在為您轉接至教務處..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</div>
-                        <div class="code-explain-line" onmouseover="showExplain('exp-7')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '3':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "正在為您轉接至總務處..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</div>
+                        <div class="code-explain-line" onmouseover="showExplain('exp-5')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '1':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "正在轉接學務處..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</div>
+                        <div class="code-explain-line" onmouseover="showExplain('exp-6')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '2':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "正在轉接教務處..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</div>
+                        <div class="code-explain-line" onmouseover="showExplain('exp-7')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case '3':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "正在轉接總務處..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;</div>
                         <div class="code-explain-line" onmouseover="showExplain('exp-8')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; "感謝您的來電..." &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
                         <div class="code-explain-line" onmouseover="showExplain('exp-9')">&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>}</div>
                     </div>
 
                     <div class="explanation-card" id="explain-box">
-                        <h5 style="color: #ff79c6; margin-top: 0;">🔍 程式碼解析</h5>
-                        <p id="explain-text">請將滑鼠懸停在左側的程式碼區塊上，即可檢視該區塊的功能介紹與詳細觀念分析。</p>
+                        <h5 style="color: #ff79c6; margin: 0 0 8px 0; font-size: 1.1em;">🔍 程式碼解析</h5>
+                        <p id="explain-text" style="margin: 0; line-height: 1.5;">請將滑鼠懸停在左側的程式碼區塊上，即可檢視該區塊的功能介紹與詳細觀念分析。</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Slide 8: 動手做練習 - 開普勒22B 背景觀念 -->
+            <!-- Slide 7: 動手做練習 - 開普勒22B 背景觀念 -->
             <section>
                 <h3>🪐 探究與素養題：宇宙級問號 Kepler-22b</h3>
-                <div class="highlight-box" style="text-align: left; font-size: 0.75em;">
-                    <p><b>開普勒22B (Kepler-22b)</b> 是體積為地球 2.4 倍的系外行星，剛好落在理論上不應存在行星的「富爾頓禁區 (1.5 ~ 2.0 倍地球半徑)」邊緣。</p>
-                    <p>其軌道偏心率為極度完美的 0.001（近乎正圓），且恆星周圍乾淨無碎片。射電望遠鏡甚至偵測到呈現數學級數（1, 2, 4, 8...）規律的電磁波信號！</p>
+                <div class="highlight-box" style="text-align: left; font-size: 0.7em;">
+                    <p style="margin-bottom: 6px;"><b>開普勒22B (Kepler-22b)</b> 是體積為地球 2.4 倍的系外行星，剛好落在理論上不應存在行星的「富爾頓禁區 (1.5 ~ 2.0 倍地球半徑)」邊緣。</p>
+                    <p style="margin: 0;">其軌道偏心率為極度完美的 0.001（近乎正圓），且恆星周圍乾淨無碎片。射電望遠鏡甚至偵測到呈現數學級數（1, 2, 4, 8...）規律的電磁波信號！</p>
                 </div>
-                <p style="font-size: 0.8em; color: #bd93f9;">科學家正嘗試使用 C++ 程式寫出自動監測與分析邏輯，請協助除錯與預測結果！</p>
+                <p style="font-size: 0.75em; color: #bd93f9; margin-top: 10px;">科學家正嘗試使用 C++ 程式寫出自動監測與分析邏輯，請協助除錯與預測結果！</p>
             </section>
 
-            <!-- Slide 9: 練習 1 - 語法陷阱題 -->
+            <!-- Slide 8: 練習 1 - 語法陷阱題 -->
             <section>
                 <h3>📝 練習 1：語法陷阱與常數宣告</h3>
-                <div style="font-size: 0.75em; text-align: left; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
-                    <p><b>題目：</b>檢查以下 C++ 敘述，哪一個選項包含<b>語法或邏輯錯誤</b>？</p>
-                    <pre><code class="language-cpp">const double MIN_RADIUS = 1.5;
+                <div style="font-size: 0.7em; text-align: left; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px;">
+                    <p style="margin: 0 0 4px 0;"><b>題目：</b>檢查以下 C++ 敘述，哪一個選項包含<b>語法或邏輯錯誤</b>？</p>
+                    <pre style="margin: 0;"><code class="language-cpp" style="font-size: 0.85em;">const double MIN_RADIUS = 1.5;
 const double MAX_RADIUS = 2.0;
 double planetRadius = 2.4;</code></pre>
                 </div>
-                <div style="font-size: 0.72em; text-align: left; margin-top: 10px;">
-                    <p>Ⓐ 使用 <code>const double</code> 宣告界限是正確的做法，因為常數不應被修改。</p>
-                    <p>Ⓑ 判斷是否在禁區內寫成：<code>if (1.5 &lt;= planetRadius &lt;= 2.0)</code> 是完全正確的 C++ 語法。</p>
-                    <p>Ⓒ 判斷是否在禁區內應寫成：<code>if (planetRadius &gt;= MIN_RADIUS &amp;&amp; planetRadius &lt;= MAX_RADIUS)</code>。</p>
-                    <p>Ⓓ 若要儲存「是否為禁區天體」的結果，適合使用 <code>bool</code> 型別。</p>
+                <div style="font-size: 0.65em; text-align: left; margin-top: 8px; line-height: 1.4;">
+                    <p style="margin-bottom: 4px;">Ⓐ 使用 <code>const double</code> 宣告界限是正確的做法，因為常數不應被修改。</p>
+                    <p style="margin-bottom: 4px;">Ⓑ 判斷是否在禁區內寫成：<code>if (1.5 &lt;= planetRadius &lt;= 2.0)</code> 是完全正確的 C++ 語法。</p>
+                    <p style="margin-bottom: 4px;">Ⓒ 判斷是否在禁區內應寫成：<code>if (planetRadius &gt;= MIN_RADIUS &amp;&amp; planetRadius &lt;= MAX_RADIUS)</code>。</p>
+                    <p style="margin-bottom: 4px;">Ⓓ 若要儲存「是否為禁區天體」的結果，適合使用 <code>bool</code> 型別。</p>
                 </div>
                 <button class="interactive-btn" onclick="toggleAnswer('ans-ex1')">💡 檢視答案與解析</button>
                 <div id="ans-ex1" class="answer-box">
-                    <p style="color: #ff5555; font-weight: bold;">❌ 錯誤選項為：(B)</p>
-                    <p><b>解析：</b>在 C++ 中，不能連續比較 <code>1.5 <= x <= 2.0</code>！這會被評估為 <code>(1.5 <= x) <= 2.0</code>，先得到布林值 <code>true/false</code> (1 或 0)，再拿 1 或 0 去比對 2.0，導致邏輯錯誤。正確寫法必須像選項 (C) 使用邏輯萬用字元 <code>&&</code> 連接。</p>
+                    <p style="color: #ff5555; font-weight: bold; margin: 0 0 4px 0;">❌ 錯誤選項為：(B)</p>
+                    <p style="margin: 0;"><b>解析：</b>C++ 不能寫 <code>1.5 <= x <= 2.0</code>！這會先計算 <code>(1.5 <= x)</code> 得到 1 或 0，再拿去與 2.0 比較導致邏輯錯誤。正確寫法須像選項 (C) 使用 <code>&&</code> 連接。</p>
                 </div>
             </section>
 
-            <!-- Slide 10: 練習 2 - 程式執行結果預測 (含縮排陷阱) -->
+            <!-- Slide 9: 練習 2 - 程式執行結果預測 (縮小排版解決滾動條) -->
             <section>
                 <h3>📝 練習 2：軌道檢測與縮排陷阱</h3>
-                <div class="grid-2" style="grid-template-columns: 1.1fr 0.9fr; font-size: 0.68em;">
+                <div class="grid-2" style="grid-template-columns: 1.1fr 0.9fr; font-size: 0.62em;">
                     <div>
-                        <pre><code class="language-cpp" data-trim>
+                        <pre style="margin: 0;"><code class="language-cpp" data-trim style="font-size: 0.85em;">
 // 輸入：0.001 0
 cin >> eccentricity >> asteroidCount;
 
 // 區塊一：軌道異常檢測
 if (eccentricity < 0.005 && asteroidCount == 0) {
-    cout << "System: Artificial Trait Detected" << endl;
+    cout << "System: Artificial Trait Detected\n";
 } else if (eccentricity < 0.017) {
-    cout << "System: Natural Stable Orbit" << endl;
+    cout << "System: Natural Stable Orbit\n";
 } else {
-    cout << "System: High Perturbation" << endl;
+    cout << "System: High Perturbation\n";
 }
 
 // 區塊二：縮排陷阱與條件式
 int lightYears = 635;
 if (lightYears < 500)
-    cout << "Target: Close Range" << endl;
-    cout << "Scan Complete" << endl;
+    cout << "Target: Close Range\n";
+    cout << "Scan Complete\n";
                         </code></pre>
                     </div>
                     <div>
-                        <p>👉 <b>題目：</b>假設輸入為偏心率 <code>0.001</code>、小行星數 <code>0</code>，請寫出終端機最終印出的兩行文字結果。</p>
+                        <p style="margin-top: 0;">👉 <b>題目：</b>假設輸入為偏心率 <code>0.001</code>、小行星數 <code>0</code>，請寫出終端機最終印出的兩行文字結果。</p>
                         <button class="interactive-btn" onclick="toggleAnswer('ans-ex2')">💡 揭曉正確答案</button>
-                        <div id="ans-ex2" class="answer-box" style="font-size: 0.9em;">
-                            <p><b>第一行：</b><br><code>System: Artificial Trait Detected</code></p>
-                            <p><b>第二行：</b><br><code>Scan Complete</code></p>
-                            <p style="font-size: 0.85em; color: #ffb86c;"><b>⚠️ 陷阱提醒：</b><code>if (lightYears < 500)</code> 沒有用大括號 <code>{}</code>，因此只作用於第一行。無論條件是否成立，最後一行 <code>Scan Complete</code> 永遠都會被執行！</p>
+                        <div id="ans-ex2" class="answer-box" style="font-size: 0.95em;">
+                            <p style="margin: 0 0 4px 0;"><b>第一行：</b><br><code style="color:#50fa7b;">System: Artificial Trait Detected</code></p>
+                            <p style="margin: 0 0 4px 0;"><b>第二行：</b><br><code style="color:#50fa7b;">Scan Complete</code></p>
+                            <p style="font-size: 0.85em; color: #ffb86c; margin: 4px 0 0 0;"><b>⚠️ 陷阱：</b><code>if (lightYears < 500)</code> 沒寫大括號 <code>{}</code>，只作用於下一行。因此最後一行 <code>Scan Complete</code> 必定執行！</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Slide 11: 練習 3 - 小明的 Debug 挑戰 -->
+            <!-- Slide 10: 練習 3 - 小明的 Debug 挑戰 -->
             <section>
                 <h3>📝 練習 3：小明的 Debug 時間</h3>
-                <div style="font-size: 0.7em; text-align: left;">
-                    <p>小明撰寫了以下評估文明領先年數的程式片段，請找出<b>兩處嚴重錯誤</b>：</p>
-                    <pre><code class="language-cpp" data-trim>
+                <div style="font-size: 0.68em; text-align: left;">
+                    <p style="margin-bottom: 6px;">小明撰寫了以下評估文明領先年數的程式片段，請找出<b>兩處嚴重錯誤</b>：</p>
+                    <pre style="margin: 0;"><code class="language-cpp" data-trim style="font-size: 0.85em;">
 int distance = 635;
 double speedup = 0.20; // 假設進化速度快 20%
 
@@ -334,16 +347,16 @@ if (0.20 <= speedup <= 0.25) {
                 <button class="interactive-btn blue-btn" onclick="openModal('modal-3')">🔍 開啟 Debug 解析報告</button>
             </section>
 
-            <!-- Slide 12: 結尾與總結 -->
+            <!-- Slide 11: 結尾與總結 -->
             <section>
                 <h2>總結</h2>
-                <ul style="line-height: 2;">
-                    <li>固定值、多選項判斷 ➔ 優先使用 <b>switch...case</b>[cite: 3]。</li>
-                    <li>範圍大小判斷 ➔ 使用 <b>if...else if...else</b>[cite: 3]。</li>
-                    <li>別忘了在每個 case 結束時加上 <b><code>break;</code></b>[cite: 3]！</li>
+                <ul style="line-height: 1.8; font-size: 0.8em;">
+                    <li>固定值、多選項判斷 ➔ 優先使用 <b>switch...case</b>。</li>
+                    <li>範圍大小判斷 ➔ 使用 <b>if...else if...else</b>。</li>
+                    <li>別忘了在每個 case 結束時加上 <b><code>break;</code></b>！</li>
                     <li>注意 C++ 邏輯運算子，切勿寫出連比語法如 <code>a <= b <= c</code>！</li>
                 </ul>
-                <p style="margin-top: 40px; color: #50fa7b;"><b>Q & A 時間 / 準備進入程式實作！</b>[cite: 3]</p>
+                <p style="margin-top: 30px; color: #50fa7b; font-size: 0.9em;"><b>Q & A 時間 / 準備進入程式實作！</b></p>
             </section>
 
         </div>
@@ -440,18 +453,18 @@ if (0.20 <= speedup <= 0.25) {
 
     <!-- ===== 燈箱 3: 小明 Debug 解析 ===== -->
     <div id="modal-3" class="modal-overlay">
-        <div class="modal-content" style="max-width: 650px;">
+        <div class="modal-content" style="max-width: 600px;">
             <button class="close-btn" onclick="closeModal('modal-3')">✕</button>
             <h4 style="margin-top:0; color:#ff79c6;">🔍 小明程式碼的錯誤解答報告</h4>
-            <div style="text-align: left; font-size: 0.85em; line-height: 1.8;">
-                <p><b>錯誤第 1 處 (第 8 行)：</b><br>
+            <div style="text-align: left; font-size: 0.8em; line-height: 1.6;">
+                <p><b>錯誤第 1 處：</b><br>
                 <code style="color: #ff5555;">if (0.20 <= speedup <= 0.25)</code><br>
-                <b>原因：</b>C++ 不支援數學上的連續比較語法，這會造成邏輯錯亂。應改寫為：<br>
+                <b>原因：</b>C++ 不支援數學上的連續比較語法。應改寫為：<br>
                 <code style="color: #50fa7b;">if (speedup >= 0.20 && speedup <= 0.25)</code></p>
-                <hr>
-                <p><b>錯誤第 2 處 (第 6 行)：</b><br>
+                <hr style="border-color: #6272a4;">
+                <p><b>錯誤第 2 處：</b><br>
                 <code style="color: #ff5555;">int leadYears = distance + distance * speedup;</code><br>
-                <b>原因：</b>右側的運算包含浮點數乘法 (0.20)，但接收變數 <code>leadYears</code> 宣告為整數 <code>int</code>，會導致小數點被強制無條件捨去，造成精度丟失。應將資料型別宣告為 <code>double</code> 或適當進行型別轉換。</p>
+                <b>原因：</b>右側計算包含小數 (0.20)，但接收變數 <code>leadYears</code> 宣告為整數 <code>int</code>，會導致小數點被無條件捨去。應宣告為 <code>double</code>。</p>
             </div>
         </div>
     </div>
@@ -463,6 +476,12 @@ if (0.20 <= speedup <= 0.25) {
         Reveal.initialize({
             hash: true,
             slideNumber: true,
+            // ===== 關鍵解決方案：設定基準解析度與縮放邊距 =====
+            width: 1024,
+            height: 700,
+            margin: 0.08,
+            minScale: 0.2,
+            maxScale: 1.5,
             plugins: [ RevealHighlight ]
         });
 
@@ -485,17 +504,17 @@ if (0.20 <= speedup <= 0.25) {
             document.getElementById(id).style.display = "none";
         }
 
-        // 滑鼠懸停顯示程式碼解析字典
+        // 滑鼠懸停顯示程式碼解析字典 (已移除[cite: 3] 標記)
         const explanations = {
-            'exp-1': '<b>#include &lt;iostream&gt;</b>：引入 C++ 的標準輸入輸出頭文件，讓程式具備印出文字 (cout) 與讀取輸入 (cin) 的能力[cite: 3]。',
-            'exp-2': '<b>int main() 與 char input;</b>：宣告主函式起點，並建立一個字元變數 input 用來儲存使用者按下的鍵盤字元[cite: 3]。',
-            'exp-3': '<b>cout 與 cin</b>：在螢幕顯示選單提示文字，並透過 cin 暫停程式以等待使用者輸入按鍵[cite: 3]。',
-            'exp-4': '<b>switch (input)</b>： switch 判斷核心，將變數 input 傳入進行精準等值比對[cite: 3]。',
-            'exp-5': '<b>case \'1\':</b>：當按鍵為字元 \'1\' 時，執行轉接學務處訊息。注意 break; 會跳出 switch 區塊，防止貫穿[cite: 3]！',
-            'exp-6': '<b>case \'2\':</b>：當按鍵為字元 \'2\' 時，執行轉接教務處訊息[cite: 3]。',
-            'exp-7': '<b>case \'3\':</b>：當按鍵為字元 \'3\' 時，執行轉接總務處訊息[cite: 3]。',
-            'exp-8': '<b>default:</b>：相當於 else。當按鍵非 \'1\', \'2\', \'3\' 時執行預設結束訊息[cite: 3]。',
-            'exp-9': '<b>return 0;</b>：代表程式順利執行完畢並結束[cite: 3]。'
+            'exp-1': '<b>#include &lt;iostream&gt;</b>：引入 C++ 的標準輸入輸出頭文件，讓程式具備印出文字 (cout) 與讀取輸入 (cin) 的能力。',
+            'exp-2': '<b>int main() 與 char input;</b>：宣告主函式起點，並建立一個字元變數 input 用來儲存使用者按下的鍵盤字元。',
+            'exp-3': '<b>cout 與 cin</b>：在螢幕顯示選單提示文字，並透過 cin 暫停程式以等待使用者輸入按鍵。',
+            'exp-4': '<b>switch (input)</b>： switch 判斷核心，將變數 input 傳入進行精準等值比對。',
+            'exp-5': '<b>case \'1\':</b>：當按鍵為字元 \'1\' 時，執行轉接學務處訊息。注意 break; 會跳出 switch 區塊，防止貫穿！',
+            'exp-6': '<b>case \'2\':</b>：當按鍵為字元 \'2\' 時，執行轉接教務處訊息。',
+            'exp-7': '<b>case \'3\':</b>：當按鍵為字元 \'3\' 時，執行轉接總務處訊息。',
+            'exp-8': '<b>default:</b>：相當於 else。當按鍵非 \'1\', \'2\', \'3\' 時執行預設結束訊息。',
+            'exp-9': '<b>return 0;</b>：代表程式順利執行完畢並結束。'
         };
 
         function showExplain(key) {
